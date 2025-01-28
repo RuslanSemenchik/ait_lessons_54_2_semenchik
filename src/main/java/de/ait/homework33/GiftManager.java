@@ -1,6 +1,6 @@
 package de.ait.homework33;
 
-import de.ait.GymApp.ClassSchedule;
+
 import de.ait.homework27.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
