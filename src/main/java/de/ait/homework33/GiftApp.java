@@ -1,20 +1,25 @@
 package de.ait.homework33;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Scanner;
 
 public class GiftApp {
 
-    static Scanner scanner = new Scanner(System.in);
-
+    private static final Logger log = LoggerFactory.getLogger(GiftApp.class);
+    private static Scanner scanner = new Scanner(System.in);
+    private static  GiftManager giftManager = new GiftManager();
     public static void main(String[] args) {
         boolean run = true;
-        GiftManager giftManager = new GiftManager();
+
 
         while (run) {
             showMenu(); // Показываем меню
             int choice = scanner.nextInt(); // Считываем выбор пользователя
-            scanner.nextLine(); // Считываем оставшийся перевод строки
+            // Считываем оставшийся перевод строки
             scanner.nextLine();
+
 
             switch (choice) {
                 case 1 -> {
@@ -23,23 +28,28 @@ public class GiftApp {
                     String name = scanner.nextLine(); // Название подарка
 
                     System.out.println("Выберите категорию (ELECTRONICS, TOYS, BOOKS, CLOTHING, HOME_APPLIANCES): ");
-                    GiftCategory category = GiftCategory.valueOf(scanner.nextLine());
-                    if (category == null) {
-                        System.out.println("");
 
+                   try {
+                       GiftCategory category = GiftCategory.valueOf(scanner.nextLine());
+                       if (category == null) {
+                           System.out.println("");
+                       }
 
-                    }
+                       System.out.println("Выберите статус (AVAILABLE, OUT_OF_STOCK, RESERVED, DELIVERED):  ");
+                       GiftStatus status = GiftStatus.valueOf(scanner.nextLine());
 
-                    System.out.println("Выберите статус (AVAILABLE, OUT_OF_STOCK, RESERVED, DELIVERED):  ");
-                    GiftStatus status = GiftStatus.valueOf(scanner.nextLine());
-
-                    Gift gift = new Gift(name,category,status);
-                    giftManager.addGift(gift);
+                       Gift gift = new Gift(name, category, status);
+                       giftManager.addGift(gift);
+                   } catch (IllegalArgumentException exception){
+                       System.out.println("Error adding gift"+ exception.getMessage());
+                       log.error("Error adding gift"+ exception.getMessage());
+                   }
 
                 }
                 case 2 -> {
                     //Список всех подарков
                     giftManager.showGifts();
+                    break;
                 }
                 case 3 -> {
                     //  Фильтровать подарки по категории
@@ -75,7 +85,7 @@ public class GiftApp {
     }
 
 
-    public static void showMenu() {
+    private static void showMenu() {
         System.out.println("Добро пожаловать в систему управления подарками!");
         System.out.println("\nВыберите действие:");
         System.out.println("1. Добавить подарок");

@@ -45,18 +45,18 @@ public class GiftManager {
             log.warn("Category is null");
             return null;
         } else {
+            int counter = 1;
 
-            List<Gift> giftsByCategory = new ArrayList<>();
-            for (Gift gift : gifts) {
-                if (gift.getCategory().equals(category)) {
-                    giftsByCategory.add(gift);
+            List<Gift> giftsByCategory = getGifts();
+            for (Gift gift : giftsByCategory) {
+                if (gift.getCategory()==category) {
+                    System.out.println( counter+ " ."+ gift.getName()+", Категория :"+ gift.getCategory()+ ", Статус:"+ gift.getStatus());
+                    counter++;
                 }
 
             }
-            System.out.println("Результаты фильтации: ");
-            System.out.println( giftsByCategory.toString());
-            log.info(" List of gifts by category: " + category + " created");
 
+            log.info(" List of gifts by category: " + category + " created");
             return giftsByCategory;
         }
 
@@ -91,13 +91,21 @@ public class GiftManager {
 
     public void showGifts() {
         System.out.println("Список всех подарков: ");
+        List<Gift> showGiftslist =  getGifts();
+        if (showGiftslist.isEmpty()){
+            System.out.println("Gift list is empty");
+        log.warn("Gift list is empty");
+    }
+        else {
+            int counter = 1;
 
-        for (Gift gift : gifts) {
-            System.out.println(gift.toString());
+            for (Gift gift : showGiftslist) {
+                System.out.println( counter+ " ."+ gift.getName()+", Категория :"+ gift.getCategory()+ ", Статус:"+ gift.getStatus());
+                counter++;
+            }
+
+
         }
-
-
-
     }
 
 
