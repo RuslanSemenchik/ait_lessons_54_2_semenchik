@@ -33,7 +33,7 @@ public class HospitalTimeDateApp {
         try {
 
             String inputUserLastVisit = scanner.nextLine();
-            if (inputUserLastVisit == null || inputUserLastVisit.isEmpty()) {
+            if (inputUserLastVisit == null) {
                 System.out.println("Введенная дата :" + inputUserLastVisit + " является  null или пустой!");
 
                 log.warn("Введенная дата :" + inputUserLastVisit + " является  null или пустой!");
@@ -72,7 +72,7 @@ public class HospitalTimeDateApp {
 
 
 
-
+scanner.close();
 
 
 

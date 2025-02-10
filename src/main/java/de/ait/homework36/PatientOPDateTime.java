@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.DateTimeException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -30,8 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PatientOPDateTime {
-    public static Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     private static final Logger log = LoggerFactory.getLogger(PatientOPDateTime.class);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     public static void main(String[] args) {
 
@@ -47,18 +46,18 @@ public class PatientOPDateTime {
                 log.warn("Введенная дата :" + inputPatientOPDateTime + " является  null или пустой!");
             } else {
 
+                LocalDateTime patientOPDateTime = LocalDateTime.parse(inputPatientOPDateTime, FORMATTER);
+                LocalDateTime current = LocalDateTime.now();
 
-                DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-                LocalDate patientOPDateTime = LocalDate.parse(inputPatientOPDateTime, customFormatter);
+
+                Duration duration = Duration.between(current, patientOPDateTime);
 
 
-                Duration duration = Duration.between( LocalDateTime.now(), patientOPDateTime.atStartOfDay());
-                long days = duration.toMinutes()/1440;
-                long remainOfDay = duration.toMinutes()%1440;
-                long hoursTime = remainOfDay/60;
-                long minTime = remainOfDay%60;
+                long days = duration.toDays();
+                long hoursTime = duration.toHours()%24;
+                long minTime = duration.toMinutes()%60;
 
-                System.out.println("До операции осталось:  " + days + " дней, "+ hoursTime + " часов,  и " + minTime + " минут. ");
+                System.out.println("До операции осталось:  " + days + " дней, "+ duration.toHours() + " часов,  и " + duration.toMinutes() + " минут. ");
 
 
                 log.info("До операции осталось:  " + days + " дней, "+ hoursTime + " часов,  и " + minTime + " минут. ");
