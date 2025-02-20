@@ -3,6 +3,7 @@ package de.ait.homework39;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 public class WeatherApp {
@@ -12,8 +13,8 @@ public class WeatherApp {
         // 2. Вывести результат в удобном для вас формате (например, список или строку).
         // Подсказка • Используйте фильтрацию (filter) по условию temperature < 0.
         System.out.println(getWeatherMinusZero());
-        System.out.println(getBooleanIsCityTemperatureOver25());
-        System.out.println(getCityMaxTemperature());
+        //System.out.println(getBooleanIsCityTemperatureOver25());
+        //System.out.println(getCityMaxTemperature());
     }
 
     public static List<Weather> getWeatherMinusZero() {
@@ -45,6 +46,22 @@ public class WeatherApp {
                 .max(Comparator.comparingDouble(Weather::getTemperature));
         return cityMaxTemperature;
     }
+
+    //  Подсчёт средней температуры с помощью mapToDouble и average().
+
+    public  static double getAverageTemperature (){
+        return  WeatherTestData.getWeatherList().stream()
+                .mapToDouble(Weather::getTemperature)
+                .average()
+                .orElse(0);
+
+
+
+
+    }
+
+
+
 
 }
 
